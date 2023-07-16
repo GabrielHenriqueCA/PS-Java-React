@@ -18,8 +18,7 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -133,11 +132,9 @@ class TransferenciaServiceImplTest {
 
         when(repositorioTransferencia.obterTodasTransferencias(pageable)).thenThrow(RuntimeException.class);
 
-        ResponseEntity<Page<TransferenciaDTO>> response = servicoTransferencia.obterTransferenciaPorOperadorEPorData(
-                pageable, null, null, null);
+        assertThrows(RuntimeException.class, () -> servicoTransferencia.obterTransferenciaPorOperadorEPorData(
+                pageable, null, null, null));
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertNull(response.getBody());
         verify(repositorioTransferencia, times(1)).obterTodasTransferencias(pageable);
     }
 
@@ -164,10 +161,8 @@ class TransferenciaServiceImplTest {
 
         when(repositorioTransferencia.obterTransferenciaPorId(id)).thenThrow(RuntimeException.class);
 
-        ResponseEntity<TransferenciaDTO> response = servicoTransferencia.obterTransferenciaPorId(id);
+        assertThrows(RuntimeException.class, () -> servicoTransferencia.obterTransferenciaPorId(id));
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertNull(response.getBody());
         verify(repositorioTransferencia, times(1)).obterTransferenciaPorId(id);
     }
 
